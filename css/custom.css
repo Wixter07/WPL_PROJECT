@@ -1,0 +1,40 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8fafc;
+}
+.card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 1rem 2rem rgba(0,0,0,0.1) !important;
+}
+.post-img {
+    height: 240px;
+    object-fit: cover;
+}
+.hover-scale:hover {
+    transform: scale(1.02);
+}
+.btn, .rounded-pill {
+    transition: all 0.2s;
+}
+.blog-content p {
+    margin-bottom: 1.5rem;
+}
+.breadcrumb {
+    background: transparent;
+    padding: 0;
+}
+.alert {
+    border-radius: 1rem;
+}
+.form-control, .form-select {
+    border-radius: 0.75rem;
+    padding: 0.6rem 1rem;
+    border: 1px solid #e2e8f0;
+}
+.form-control:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 0.2rem rgba(59,130,246,0.25);
+}

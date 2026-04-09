@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block title %}{{ department.name }} Posts{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'departments' %}">Departments</a></li>
+        <li class="breadcrumb-item active">{{ department.name }}</li>
+    </ol>
+</nav>
+
+<h1 class="mb-4">{{ department.name }} <span class="text-muted fs-5">({{ department.code }})</span></h1>
+
+<div class="row">
+    <div class="col-lg-8">
+        {% for post in page_obj %}
+            <article class="card mb-4 border-0 shadow-sm rounded-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="badge bg-info">{{ post.get_post_type_display }}</span>
+                        <small class="text-muted">{{ post.created_at|date:"M d, Y" }}</small>
+                    </div>
+                    <h3 class="card-title">{{ post.title }}</h3>
+                    <p class="text-muted">By {{ post.author.username }}</p>
+                    <p>{{ post.content|striptags|truncatewords:30 }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="bi bi-hand-thumbs-up"></i> {{ post.total_upvotes }} upvotes
+                            <i class="bi bi-chat ms-2"></i> {{ post.comments.count }} comments
+                        </div>
+                        <a href="{% url 'post_detail' post.slug %}" class="btn btn-sm btn-primary rounded-pill">Read More</a>
+                    </div>
+                </div>
+            </article>
+        {% empty %}
+            <div class="alert alert-info">No posts in this department yet.</div>
+        {% endfor %}
+
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <nav>
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                {% endif %}
+                <li class="page-item active"><span class="page-link">{{ page_obj.number }}</span></li>
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+
+    <!-- Sidebar with post type quick links -->
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-header bg-white fw-bold">Filter by Type</div>
+            <div class="card-body">
+                <ul class="list-unstyled">
+                    {% for code, name in post_types %}
+                        <li class="mb-2"><a href="{% url 'home' %}?type={{ code }}" class="text-decoration-none">{{ name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

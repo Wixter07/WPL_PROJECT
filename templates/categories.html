@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}All Categories{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">Browse by Category</h1>
+        <div class="row g-4">
+            {% for cat in categories %}
+                <div class="col-md-4">
+                    <a href="{% url 'category_posts' cat.slug %}" class="text-decoration-none">
+                        <div class="card border-0 shadow-sm rounded-4 text-center h-100 hover-scale">
+                            <div class="card-body py-4">
+                                <i class="bi bi-folder-fill fs-1 text-primary"></i>
+                                <h4 class="mt-3">{{ cat.name }}</h4>
+                                <span class="badge bg-secondary">{{ cat.posts.count }} posts</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% empty %}
+                <p>No categories found.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

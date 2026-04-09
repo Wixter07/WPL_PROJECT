@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}All Departments{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">Academic Departments</h1>
+        <div class="row g-4">
+            {% for code, name in departments %}
+                <div class="col-md-4">
+                    <a href="{% url 'department_posts' dept_code=code %}" class="text-decoration-none">
+                        <div class="card border-0 shadow-sm rounded-4 text-center h-100 hover-scale">
+                            <div class="card-body py-4">
+                                <i class="bi bi-building fs-1 text-primary"></i>
+                                <h4 class="mt-3">{{ name }}</h4>
+                                <span class="badge bg-secondary">{{ code }}</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% empty %}
+                <p>No departments found.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
